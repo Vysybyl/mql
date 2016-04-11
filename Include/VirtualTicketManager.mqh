@@ -16,6 +16,9 @@ class VirtualTicketManager
   {
 private:
    VirtualTicketSmartList _ticketList;
+   int               _magicNumber;
+   int               _cacheFileHandler;
+   void              _initializeCache();
 public:
                      VirtualTicketManager();
                     ~VirtualTicketManager();
@@ -35,15 +38,33 @@ public:
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-VirtualTicketManager::VirtualTicketManager()
+VirtualTicketManager::VirtualTicketManager(int magicNumber)
   {
-   delete &(this._ticketList);
+   this._magicNumber=magicNumber;
+   this._initializeFromFile();
+  }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+VirtualTicketManager::_initializeCache(void)
+  {
+   if(FileIsExist(this._getCacheFileName()))
+     {
+      this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_CSV,";",CP_ACP);
+      
+     }
+     else
+       {
+        
+       }
+       this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_CSV,";",CP_ACP);
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
 VirtualTicketManager::~VirtualTicketManager()
   {
+   delete &(this._ticketList);
   }
 //+------------------------------------------------------------------+
 void VirtualTicketManager::Send(string symbol,int cmd,double volume,double price,int slippage,double stoploss,double takeprofit)

@@ -96,5 +96,19 @@ public:
       VirtualTicketNode *node=this._first;
       return node.Value;
      }
+     //+------------------------------------------------------------------+
+     //|                                                                  |
+     //+------------------------------------------------------------------+
+     string ToCSVString(short delimiter=",")
+     {
+     string out = "";
+     VirtualTicketNode* auxnode = this._first;
+     while(auxnode != NULL)
+       {
+        out += auxnode.Value.ToCSVLine(delimiter);
+        auxnode = auxnode.Next;
+       }
+       return out;
+     }
   };
 //+------------------------------------------------------------------+
