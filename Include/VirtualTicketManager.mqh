@@ -48,16 +48,15 @@ VirtualTicketManager::VirtualTicketManager(int magicNumber)
 //+------------------------------------------------------------------+
 VirtualTicketManager::_initializeCache(void)
   {
-   if(FileIsExist(this._getCacheFileName()))
-     {
-      this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
-      
-     }
-     else
-       {
-        
-       }
-       this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_CSV,";",CP_ACP);
+        this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
+        string line = FileReadString(this._cacheFileHandler);
+        while( line != NULL && StringLen(content)>0)
+          {
+          VirtualTicket *VT= new VirtualTicket(line);
+           this._ticketList.Add(VT);
+           line = FileReadString(this._cacheFileHandler);
+          }
+          FileClose(this._cacheFileHandler);
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
