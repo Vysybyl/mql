@@ -50,7 +50,7 @@ VirtualTicketManager::_initializeCache(void)
   {
    if(FileIsExist(this._getCacheFileName()))
      {
-      this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_CSV,";",CP_ACP);
+      this._cacheFileHandler = FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
       
      }
      else
