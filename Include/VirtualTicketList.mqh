@@ -99,13 +99,13 @@ public:
      //+------------------------------------------------------------------+
      //|                                                                  |
      //+------------------------------------------------------------------+
-     string ToFileString(short delimiter=",")
+     string ToFileString(short delimiter=',')
      {
      string out = "";
      VirtualTicketNode* auxnode = this._first;
      while(auxnode != NULL)
        {
-        out += auxnode.Value.ToFileLine(delimiter);
+        out += auxnode.Value.ToFileLine(delimiter)+"\n";
         auxnode = auxnode.Next;
        }
        return out;
