@@ -94,7 +94,7 @@ public:
            {
             this._removeAndPatch(nodeToCheck);
             this._deleteValue(nodeToCheck);
-            delete nodeToCheck;
+            //delete nodeToCheck;
             resp=true;
            }
          while(auxValue!=NULL)
@@ -105,7 +105,7 @@ public:
               {
                this._removeAndPatch(nodeToCheck);
                this._deleteValue(nodeToCheck);
-               delete nodeToCheck;
+              // delete nodeToCheck;
                resp=true;
               }
            }

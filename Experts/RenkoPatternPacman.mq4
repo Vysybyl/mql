@@ -16,10 +16,11 @@ input int      CloseAfterBricks=2;
 input double   LotSize=0.01;
 input int      OfflineChartTimeframe=6;
 input int      TakeProfitBricks=2;
+input int MagicNumber=999;
 
-int candleHeight=200;
+int candleHeight;
 RenkoCustomIndicator renko(OpenAfterBricks,OfflineChartTimeframe);
-VirtualTicketManager VTM();
+VirtualTicketManager VTM(MagicNumber);
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
@@ -27,6 +28,7 @@ int OnInit()
   {
 //---
    MathSrand(GetTickCount());
+   candleHeight=NormalizeDouble(High[1]-Low[1],Digits);
 
 //---
    return(INIT_SUCCEEDED);

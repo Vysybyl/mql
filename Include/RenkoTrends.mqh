@@ -9,6 +9,7 @@
 #include <IntStatisticsList.mqh>
 #include <CustomIndicator.mqh>
 input int RenkoTrendsCandles=1000;
+
 //+------------------------------------------------------------------+
 //| defines                                                          |
 //+------------------------------------------------------------------+

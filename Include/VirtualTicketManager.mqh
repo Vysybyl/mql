@@ -17,10 +17,10 @@ class VirtualTicketManager
 private:
    VirtualTicketSmartList _ticketList;
    int               _magicNumber;
-   int               _cacheFileHandler;
    string            _getCacheFileName();
    void              _initializeCache();
    void              _refreshCache();
+
 public:
                      VirtualTicketManager(int magicNumber);
                     ~VirtualTicketManager();
@@ -36,6 +36,7 @@ public:
    bool              Run();
    bool              CloseAllBuy();
    bool              CloseAllSend();
+   string            ToString();
   };
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -51,24 +52,26 @@ VirtualTicketManager::VirtualTicketManager(int magicNumber)
 
 VirtualTicketManager::_refreshCache(void)
   {
-   this._cacheFileHandler=FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
-   FileWriteString(this._cacheFileHandler,this._ticketList.ToFileString());
-   FileClose(this._cacheFileHandler);
+  FileDelete(this._getCacheFileName());
+   int handler=FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
+   FileWriteString(handler,this._ticketList.ToFileString());
+   FileClose(handler);
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
 VirtualTicketManager::_initializeCache(void)
   {
-   this._cacheFileHandler=FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
-   string line = FileReadString(this._cacheFileHandler);
+   int handler =FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
+   string line = FileReadString(handler);
    while(line != NULL && StringLen(line)>0)
      {
       VirtualTicket *VT=new VirtualTicket(line);
       this._ticketList.Add(VT);
-      line=FileReadString(this._cacheFileHandler);
+      line=FileReadString(handler);
      }
-   FileClose(this._cacheFileHandler);
+   FileClose(handler);
+   Print("Virtual Ticket Manager - "+IntegerToString(this._ticketList.Length)+" tickets were restored from cache.");
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -103,25 +106,25 @@ bool VirtualTicketManager::Run(void)
 //+------------------------------------------------------------------+
 bool VirtualTicketManager::CloseAllBuy(void)
   {
-  bool res = this._ticketList.CloseAllBuy();
+   bool res=this._ticketList.CloseAllBuy();
    if(res)
      {
       this._refreshCache();
      }
-     return res;
-   
+   return res;
+
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
 bool VirtualTicketManager::CloseAllSend(void)
   {
-   bool res = this._ticketList.CloseAllSend();
+   bool res=this._ticketList.CloseAllSend();
    if(res)
      {
       this._refreshCache();
      }
-     return res;
+   return res;
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -129,5 +132,12 @@ bool VirtualTicketManager::CloseAllSend(void)
 string VirtualTicketManager::_getCacheFileName(void)
   {
    return "VirtualTicketManager/Cache_"+IntegerToString(this._magicNumber)+".txt";
+  }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+string VirtualTicketManager::ToString(void)
+  {
+   return "MagicNumber: " + IntegerToString(this._magicNumber) + " | " + this._ticketList.ToString();
   }
 //+------------------------------------------------------------------+

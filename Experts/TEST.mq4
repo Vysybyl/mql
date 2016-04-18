@@ -12,25 +12,52 @@
 #include <RenkoTrends.mqh>
 #include <MarketStats.mqh>
 #include <VirtualTicketManager.mqh>
+input int MagicNumber = 103;
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit()
   {
+  
+  /*
+  string name ="TestFile12.txt";
+  int handlr = FileOpen(name, FILE_READ | FILE_WRITE | FILE_TXT, 0, CP_ACP);
+  FileWriteString(handlr,"ProvaLeggi");
+  FileClose(handlr);
+  
+  handlr = FileOpen(name, FILE_READ | FILE_WRITE | FILE_TXT, 0, CP_ACP);
+  FileWriteString(handlr,"ProvaLeggi12345");
+  FileClose(handlr);
+  
+  handlr = FileOpen(name, FILE_READ | FILE_WRITE | FILE_TXT, 0, CP_ACP);
+  FileWriteString(handlr," ");
+  FileClose(handlr);
+  */
+  
+  
 //---
-VirtualTicketManager VTM();
+VirtualTicketManager VTM(MagicNumber);
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_BUY,0.01,Ask,5,Ask+20*Point,Ask+50*Point);
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_BUY,0.01,Ask,5,Ask+20*Point,0);
+/*
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_BUY,0.01,Ask,5,0,Ask-50*Point);
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_BUY,0.01,Ask,5,Ask-20*Point,Ask-50*Point);
-
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_SELL,0.01,Bid,5,Bid-20*Point,Bid-50*Point);
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_SELL,0.01,Bid,5,Bid+20*Point,Bid+50*Point);
+*/
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_SELL,0.01,Bid,5,Bid-20*Point,0);
+Print(VTM.ToString());
 VTM.Send(Symbol(),ORDER_TYPE_SELL,0.01,Bid,5,0,Bid+50*Point);
-
+Print(VTM.ToString());
 VTM.Run();
-
+Print(VTM.ToString());
 /*
 RenkoTrendsCustomIndicator RT();
 //MarketStatsCustomIndicator MS();

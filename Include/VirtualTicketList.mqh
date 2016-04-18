@@ -99,7 +99,7 @@ public:
      //+------------------------------------------------------------------+
      //|                                                                  |
      //+------------------------------------------------------------------+
-     string ToFileString(short delimiter=',')
+     string ToFileString(string delimiter=",")
      {
      string out = "";
      VirtualTicketNode* auxnode = this._first;
@@ -107,6 +107,21 @@ public:
        {
         out += auxnode.Value.ToFileLine(delimiter)+"\n";
         auxnode = auxnode.Next;
+       }
+       return out;
+     }
+     //+------------------------------------------------------------------+
+     //|                                                                  |
+     //+------------------------------------------------------------------+
+     string ToString(void){
+      string out = "";
+      int i = 0;
+     VirtualTicketNode* auxnode = this._first;
+     while(auxnode != NULL)
+       {
+        out += "NODE " + IntegerToString(i)+ ": " +  auxnode.Value.ToString()+" | ";
+        auxnode = auxnode.Next;
+        i++;
        }
        return out;
      }
