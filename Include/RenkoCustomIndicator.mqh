@@ -26,6 +26,7 @@ public:
       _openAfter = openAfter;
       _offlineChartTimeframe = offlineChartTimeframe;
       _isNewCandle = False;
+      _currentCandle = iTime(Symbol(),_offlineChartTimeframe,1);
      }
                     ~RenkoCustomIndicator(void){};
    void OnTickStart()

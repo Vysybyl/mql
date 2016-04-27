@@ -28,8 +28,7 @@ int OnInit()
   {
 //---
    MathSrand(GetTickCount());
-   candleHeight=NormalizeDouble(High[1]-Low[1],Digits);
-
+   candleHeight=NormalizeDouble(MathAbs(Open[1]-Close[1])/Point,0);
 //---
    return(INIT_SUCCEEDED);
   }
