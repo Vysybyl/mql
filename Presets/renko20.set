@@ -1,0 +1,13 @@
+RenkoBoxSize=20.0
+RenkoBoxOffset=0
+RenkoTimeFrame=20
+ShowWicks=true
+EmulateOnLineChart=true
+BuildChartsWhenMarketOffline=true
+note=== ATR Based Boxes ==
+CalculateBestBoxSize=false
+ATRPeriod=24
+ATRTimeFrame=60
+UseATRMA=true
+MAMethod=0
+MAPeriod=120
