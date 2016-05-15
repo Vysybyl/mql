@@ -1,0 +1,6 @@
+OpenAfterBricks=1
+CloseAfterBricks=2
+LotSize=0.01
+OfflineChartTimeframe=20
+TakeProfitBricks=2
+MagicNumber=200
