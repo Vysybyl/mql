@@ -28,7 +28,7 @@ int OnInit()
   {
 //---
    MathSrand(GetTickCount());
-   candleHeight=NormalizeDouble(MathAbs(Open[1]-Close[1])/Point,0);
+   candleHeight=NormalizeDouble(MathAbs(iOpen(Symbol(),OfflineChartTimeframe,1)-iClose(Symbol(),OfflineChartTimeframe,1))/Point,0);
 //---
    return(INIT_SUCCEEDED);
   }
