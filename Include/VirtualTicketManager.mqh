@@ -9,6 +9,7 @@
 #property strict
 
 #include <VirtualTicketSmartList.mqh>
+#include <MartingaleUtils.mqh>
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
@@ -17,12 +18,13 @@ class VirtualTicketManager
 private:
    VirtualTicketSmartList _ticketList;
    int               _magicNumber;
+   bool              _enableMartingale;
    string            _getCacheFileName();
    void              _initializeCache();
    void              _refreshCache();
 
 public:
-                     VirtualTicketManager(int magicNumber);
+                     VirtualTicketManager(int magicNumber,bool enableMartingale);
                     ~VirtualTicketManager();
    void              Send(
                           string   symbol,              // symbol
@@ -41,9 +43,10 @@ public:
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-VirtualTicketManager::VirtualTicketManager(int magicNumber)
+VirtualTicketManager::VirtualTicketManager(int magicNumber,bool enableMartingale)
   {
    this._magicNumber=magicNumber;
+   this._enableMartingale=enableMartingale;
    this._initializeCache();
   }
 //+------------------------------------------------------------------+
@@ -52,7 +55,7 @@ VirtualTicketManager::VirtualTicketManager(int magicNumber)
 
 VirtualTicketManager::_refreshCache(void)
   {
-  FileDelete(this._getCacheFileName());
+   FileDelete(this._getCacheFileName());
    int handler=FileOpen(this._getCacheFileName(),FILE_READ|FILE_WRITE|FILE_TXT,0,CP_ACP);
    FileWriteString(handler,this._ticketList.ToFileString());
    FileClose(handler);
@@ -83,7 +86,12 @@ VirtualTicketManager::~VirtualTicketManager()
 //+------------------------------------------------------------------+
 void VirtualTicketManager::Send(string symbol,int cmd,double volume,double price,int slippage,double stoploss,double takeprofit)
   {
-   VirtualTicket *VT=new VirtualTicket(symbol,cmd,volume,price,slippage,stoploss,takeprofit);
+  double vol=volume;
+  if(this._enableMartingale)
+    {
+     vol=GetVolume(symbol,volume,price,takeprofit,this._magicNumber);
+    }
+   VirtualTicket *VT=new VirtualTicket(symbol,cmd,vol,price,slippage,stoploss,takeprofit,this._magicNumber);
    this._ticketList.Add(VT);
    this._refreshCache();
   }
